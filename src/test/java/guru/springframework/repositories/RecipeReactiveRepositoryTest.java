@@ -1,6 +1,8 @@
 package guru.springframework.repositories;
 
+import guru.springframework.domain.Recipe;
 import guru.springframework.domain.UnitOfMeasure;
+import guru.springframework.repositories.reactive.RecipeReactiveRepository;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -19,23 +21,29 @@ import static org.junit.Assert.assertEquals;
 @Ignore
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class UnitOfMeasureRepositoryIT {
+public class RecipeReactiveRepositoryTest {
 
     @Autowired
-    UnitOfMeasureRepository unitOfMeasureRepository;
+    RecipeReactiveRepository recipeReactiveRepository;
 
     @Before
     public void setUp() throws Exception {
+        recipeReactiveRepository.deleteAll().block();
     }
 
     @Test
-    public void findByDescription() throws Exception {
+    public void testRecipeSave() throws Exception {
+        Recipe recipe = new Recipe();
+        recipe.setDescription("yummy");
 
-        Optional<UnitOfMeasure> uomOptional = unitOfMeasureRepository.findByDescription("Teaspoon");
+        recipeReactiveRepository.save(recipe).block();
 
-        assertEquals("Teaspoon", uomOptional.get().getDescription());
+        Long count = recipeReactiveRepository.count().block();
+
+        assertEquals(Long.valueOf(1L), count);
+
     }
-
+/*
     @Test
     public void findByDescriptionCup() throws Exception {
 
@@ -43,5 +51,5 @@ public class UnitOfMeasureRepositoryIT {
 
         assertEquals("Cup", uomOptional.get().getDescription());
     }
-
+*/
 }
