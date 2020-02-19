@@ -7,12 +7,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
-//import lombok.extern.slf4j.Slf4j;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-//@Slf4j
 @RunWith(SpringRunner.class)
 @DataMongoTest
 public class CategoryReactiveRepositoryTest {
@@ -41,7 +39,7 @@ public class CategoryReactiveRepositoryTest {
         category.setDescription("Foo");
         categoryReactiveRepository.save(category).then().block();
         Category fetchedCat = categoryReactiveRepository.findByDescription("Foo").block();
-        //log.info(fetchedCat.getId());
+
         assertNotNull(fetchedCat.getId());
     }
 }
